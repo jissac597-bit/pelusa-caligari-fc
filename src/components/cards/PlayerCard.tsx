@@ -76,33 +76,33 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
           <div className="relative z-20 flex justify-between items-start pointer-events-none">
             {/* Columna Izquierda estilo EA FC */}
             <div className="flex flex-col items-center leading-none">
-              <span className="text-4xl sm:text-5xl font-black tracking-tighter text-[#FFE58F] font-mono drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+              <span className="text-2xl sm:text-3xl font-black tracking-tighter text-[#FFE58F] font-mono drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                 {overall}
               </span>
-              <span className="text-base sm:text-lg font-black text-white uppercase tracking-wider mt-1 drop-shadow-sm">
+              <span className="text-sm sm:text-base font-black text-white uppercase tracking-wider mt-1 drop-shadow-sm">
                 {jugador.posicion || 'JUG'}
               </span>
-              <span className="text-2xl mt-1.5 drop-shadow-md" title="México">
+              <span className="text-xl sm:text-2xl mt-1 drop-shadow-md" title="México">
                 🇲🇽
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo.png"
                 alt="Pelusa FC"
-                className="w-6 h-6 object-contain mt-1 opacity-90"
+                className="w-5 h-5 sm:w-6 sm:h-6 object-contain mt-1 opacity-90"
               />
             </div>
 
             {/* Dorsal en la esquina superior derecha */}
             <div className="flex flex-col items-end">
-              <span className="text-lg sm:text-xl font-black text-[#FFE58F]/70 drop-shadow-sm">
+              <span className="text-base sm:text-lg font-black text-[#FFE58F]/70 drop-shadow-sm">
                 #{jugador.dorsal ?? '--'}
               </span>
             </div>
           </div>
 
           {/* AVATAR EN EL CENTRO SUPERIOR (HTML estándar <img> a prueba de fallos) */}
-          <div className="relative w-full -mt-16 mb-2 flex items-center justify-center">
+          <div className="relative w-full flex items-center justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={avatarSrc}
@@ -113,36 +113,36 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
                   jugador.nombre
                 )}`;
               }}
-              className="w-32 h-32 object-contain mx-auto relative z-10 drop-shadow-xl"
+              className="w-28 h-28 object-contain mx-auto -mt-4 drop-shadow-xl relative z-10"
             />
           </div>
 
           {/* NOMBRE DEL JUGADOR CON BANDA ESTILO FUT */}
-          <div className="relative z-10 text-center mb-2.5">
-            <h3 className="text-lg sm:text-xl font-black uppercase tracking-widest text-[#FFF4CC] truncate drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+          <div className="relative z-10 text-center mb-2 px-1">
+            <h3 className="text-sm font-bold tracking-tight uppercase truncate text-[#FFF4CC] drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
               {jugador.nombre}
             </h3>
-            <div className="h-[2px] w-3/4 mx-auto bg-gradient-to-r from-transparent via-[#FFD25F] to-transparent mt-1 mb-1.5 opacity-80" />
+            <div className="h-[1.5px] w-3/4 mx-auto bg-gradient-to-r from-transparent via-[#FFD25F] to-transparent mt-1 mb-1.5 opacity-80" />
             
             {/* Pierna Hábil */}
-            <div className="inline-flex items-center gap-1 text-[0.6875rem] font-black uppercase tracking-wider text-[#FFD25F] bg-black/60 px-2 py-0.5 rounded-full border border-[#FFD25F]/30">
-              <Footprints className="w-3 h-3 text-[#FFD25F]" />
+            <div className="inline-flex items-center gap-1 text-[0.625rem] font-black uppercase tracking-wider text-[#FFD25F] bg-black/60 px-2 py-0.5 rounded-full border border-[#FFD25F]/30">
+              <Footprints className="w-2.5 h-2.5 text-[#FFD25F]" />
               <span>PIE: {pieDisplay}</span>
             </div>
           </div>
 
-          {/* PARTE INFERIOR: ESTADÍSTICAS ESTILO BLOQUE ULTIMATE TEAM */}
+          {/* PARTE INFERIOR: ESTADÍSTICAS COMPACTAS ESTILO BLOQUE ULTIMATE TEAM */}
           {/* Fila 1: PJ | GOL  --  Fila 2: AST | MVP */}
-          <div className="relative z-10 py-2.5 px-3 border-t border-b border-[#FFD25F]/35 bg-black/50 backdrop-blur-sm rounded-xl space-y-2">
+          <div className="relative z-10 p-2 border-t border-b border-[#FFD25F]/35 bg-black/50 backdrop-blur-sm rounded-xl space-y-1.5">
             {/* Fila 1: PJ (Partidos Jugados) | GOL (Goles) */}
             <div className="grid grid-cols-2 divide-x divide-[#FFD25F]/20 text-center">
               <div className="flex items-center justify-between px-2">
-                <span className="text-[#FFD25F] text-xs font-black tracking-wider">PJ</span>
-                <span className="text-white text-base sm:text-lg font-black">{partidosJugados}</span>
+                <span className="text-[10px] text-pelusa-gold font-black tracking-wider">PJ</span>
+                <span className="text-sm font-bold text-white">{partidosJugados}</span>
               </div>
               <div className="flex items-center justify-between px-2">
-                <span className="text-[#FFD25F] text-xs font-black tracking-wider">GOL</span>
-                <span className="text-white text-base sm:text-lg font-black">{totalGoles}</span>
+                <span className="text-[10px] text-pelusa-gold font-black tracking-wider">GOL</span>
+                <span className="text-sm font-bold text-white">{totalGoles}</span>
               </div>
             </div>
 
@@ -151,12 +151,12 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
             {/* Fila 2: AST (Asistencias) | MVP (Veces MVP) */}
             <div className="grid grid-cols-2 divide-x divide-[#FFD25F]/20 text-center">
               <div className="flex items-center justify-between px-2">
-                <span className="text-[#FFD25F] text-xs font-black tracking-wider">AST</span>
-                <span className="text-white text-base sm:text-lg font-black">{totalAsistencias}</span>
+                <span className="text-[10px] text-pelusa-gold font-black tracking-wider">AST</span>
+                <span className="text-sm font-bold text-white">{totalAsistencias}</span>
               </div>
               <div className="flex items-center justify-between px-2">
-                <span className="text-[#FFD25F] text-xs font-black tracking-wider">MVP</span>
-                <span className="text-white text-base sm:text-lg font-black">{totalMvps}</span>
+                <span className="text-[10px] text-pelusa-gold font-black tracking-wider">MVP</span>
+                <span className="text-sm font-bold text-white">{totalMvps}</span>
               </div>
             </div>
           </div>
