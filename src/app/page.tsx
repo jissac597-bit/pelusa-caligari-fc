@@ -183,26 +183,26 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen text-white p-4 sm:p-6 md:p-10 max-w-7xl mx-auto space-y-8 sm:space-y-12">
+    <div className="min-h-screen text-white text-sm sm:text-base p-4 sm:p-6 md:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8">
       {/* Barra de navegación superior con Logotipo Protagonista */}
-      <nav className="flex flex-col sm:flex-row items-center justify-between gap-6 border-b border-zinc-800/80 pb-6 sm:pb-8">
-        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
-          {/* Logotipo Protagonista (mínimo 80x80 px responsivo) */}
-          <div className="relative shrink-0 flex items-center justify-center p-2 rounded-3xl bg-pelusa-dark/90 border-2 border-pelusa-gold/40 shadow-2xl shadow-pelusa-gold/15 backdrop-blur-md">
+      <nav className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-zinc-800/80 pb-4 sm:pb-6">
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-center sm:text-left">
+          {/* Logotipo Protagonista */}
+          <div className="relative shrink-0 flex items-center justify-center p-2 rounded-2xl bg-pelusa-dark/90 border border-pelusa-gold/40 shadow-xl shadow-pelusa-gold/15 backdrop-blur-md">
             <Image
               alt="Logo Pelusa Caligari"
-              height={100}
+              height={80}
               src="/logo.png"
-              width={100}
-              className="object-contain w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 drop-shadow-[0_4px_12px_rgba(255,184,0,0.3)]"
+              width={80}
+              className="object-contain w-16 h-16 sm:w-20 sm:h-20 drop-shadow-[0_4px_12px_rgba(255,184,0,0.3)]"
               priority
             />
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight text-white leading-none drop-shadow-md">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white leading-none drop-shadow-md">
               PELUSA CALIGARI <span className="text-pelusa-gold">FC</span>
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-zinc-300 font-bold uppercase tracking-wider mt-1 sm:mt-2">
+            <p className="text-xs sm:text-sm text-zinc-300 font-bold uppercase tracking-wider mt-1">
               Portal Oficial &bull; El Glorioso Pambolero
             </p>
           </div>
@@ -210,20 +210,20 @@ export default function Home() {
 
         <Link
           href="/admin"
-          className="self-stretch sm:self-auto flex items-center justify-center gap-2.5 bg-pelusa-dark/90 hover:bg-zinc-800 text-pelusa-gold border-2 border-pelusa-gold/40 px-6 py-3.5 rounded-2xl text-sm sm:text-base font-black transition-all shadow-xl hover:shadow-pelusa-gold/20 hover:scale-105 active:scale-95"
+          className="self-stretch sm:self-auto flex items-center justify-center gap-2 bg-pelusa-dark/90 hover:bg-zinc-800 text-pelusa-gold border border-pelusa-gold/40 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md hover:scale-105 active:scale-95"
         >
-          <Settings className="w-5 h-5" />
+          <Settings className="w-4 h-4" />
           <span>Panel Admin</span>
         </Link>
       </nav>
 
       {/* Widget Superior: Próximo Encuentro o Último Resultado Deportivo */}
-      <section className="space-y-3">
+      <section className="space-y-2.5">
         {proximoPartido ? (
           <>
             <div className="flex items-center justify-between">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white uppercase tracking-wider flex items-center gap-3 drop-shadow-sm">
-                <span className="w-3 h-3 rounded-full bg-pelusa-gold animate-pulse shadow-lg shadow-pelusa-gold/50" />
+              <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-wider flex items-center gap-2.5 drop-shadow-sm">
+                <span className="w-2.5 h-2.5 rounded-full bg-pelusa-gold animate-pulse shadow-md shadow-pelusa-gold/50" />
                 PRÓXIMO ENCUENTRO
               </h2>
             </div>
@@ -232,8 +232,8 @@ export default function Home() {
         ) : ultimoPartidoFinalizado ? (
           <>
             <div className="flex items-center justify-between">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white uppercase tracking-wider flex items-center gap-3 drop-shadow-sm">
-                <span className="w-3 h-3 rounded-full bg-emerald-400 shadow-lg shadow-emerald-400/50" />
+              <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-wider flex items-center gap-2.5 drop-shadow-sm">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-md shadow-emerald-400/50" />
                 ÚLTIMO RESULTADO OFICIAL
               </h2>
             </div>
@@ -245,8 +245,8 @@ export default function Home() {
         ) : (
           <>
             <div className="flex items-center justify-between">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white uppercase tracking-wider flex items-center gap-3 drop-shadow-sm">
-                <span className="w-3 h-3 rounded-full bg-pelusa-gold animate-pulse shadow-lg shadow-pelusa-gold/50" />
+              <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-wider flex items-center gap-2.5 drop-shadow-sm">
+                <span className="w-2.5 h-2.5 rounded-full bg-pelusa-gold animate-pulse shadow-md shadow-pelusa-gold/50" />
                 PRÓXIMO ENCUENTRO
               </h2>
             </div>
@@ -256,9 +256,9 @@ export default function Home() {
       </section>
 
       {/* Módulos de Navegación (Tabs) */}
-      <section className="space-y-6 sm:space-y-8">
-        <div className="border-b border-zinc-800/80 pb-3">
-          <div className="flex items-center gap-2.5 sm:gap-3 overflow-x-auto py-2 scrollbar-none">
+      <section className="space-y-4 sm:space-y-6">
+        <div className="border-b border-zinc-800/80 pb-2">
+          <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none">
             {tabsConfig.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -266,13 +266,13 @@ export default function Home() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2.5 px-5 sm:px-6 py-3 rounded-2xl text-xs sm:text-sm md:text-base font-black transition-all whitespace-nowrap cursor-pointer shadow-md ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all whitespace-nowrap cursor-pointer shadow-sm ${
                     isActive
-                      ? 'bg-pelusa-gold text-black shadow-lg shadow-pelusa-gold/30 scale-105'
+                      ? 'bg-pelusa-gold text-black shadow-md shadow-pelusa-gold/30'
                       : 'bg-pelusa-dark/90 text-zinc-300 hover:text-white hover:bg-zinc-800/90 border border-zinc-700/80'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${isActive ? 'text-black' : 'text-pelusa-gold'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-black' : 'text-pelusa-gold'}`} />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -296,10 +296,10 @@ export default function Home() {
           /* Renderizado del Módulo Seleccionado */
           <div>
             {activeTab === 'plantilla' && (
-              <div className="space-y-6">
+              <div className="space-y-5">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white uppercase tracking-wider flex items-center gap-3 drop-shadow-sm">
-                    <Users className="w-7 h-7 text-pelusa-gold" />
+                  <h3 className="text-xl sm:text-2xl font-black text-white uppercase tracking-wider flex items-center gap-2.5 drop-shadow-sm">
+                    <Users className="w-5 h-5 text-pelusa-gold" />
                     PLANTILLA OFICIAL ({jugadores.length})
                   </h3>
                 </div>

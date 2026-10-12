@@ -37,27 +37,27 @@ export const NextMatchBanner: React.FC<NextMatchBannerProps> = ({ partido }) => 
       <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
         
         {/* Info del Encuentro: Pelusa Caligari vs Rival */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 md:gap-10 w-full md:w-auto">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 w-full md:w-auto">
           <div className="text-center sm:text-left">
-            <span className="text-xs sm:text-sm uppercase tracking-widest font-black text-pelusa-gold block mb-1">
+            <span className="text-[10px] sm:text-xs uppercase tracking-widest font-black text-pelusa-gold block mb-0.5">
               Local
             </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white uppercase tracking-tight drop-shadow-md">
+            <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight drop-shadow-md">
               Pelusa Caligari
             </h2>
           </div>
 
-          <div className="flex flex-col items-center my-1 sm:my-0 px-2 sm:px-4">
-            <span className="text-xs sm:text-sm font-black bg-pelusa-dark border-2 border-pelusa-gold/60 text-pelusa-gold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
+          <div className="flex flex-col items-center my-0.5 sm:my-0 px-2">
+            <span className="text-[10px] sm:text-xs font-black bg-pelusa-dark border border-pelusa-gold/60 text-pelusa-gold px-3 py-1 rounded-full uppercase tracking-widest shadow-md">
               VS
             </span>
           </div>
 
           <div className="text-center sm:text-right">
-            <span className="text-xs sm:text-sm uppercase tracking-widest font-black text-red-400 block mb-1">
+            <span className="text-[10px] sm:text-xs uppercase tracking-widest font-black text-red-400 block mb-0.5">
               Rival
             </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white uppercase tracking-tight drop-shadow-md">
+            <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight drop-shadow-md">
               {partido.rival}
             </h2>
           </div>

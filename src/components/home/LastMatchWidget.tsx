@@ -53,32 +53,32 @@ export const LastMatchWidget: React.FC<LastMatchWidgetProps> = ({ partido, anota
           </div>
         </div>
 
-        {/* MARCADOR GIGANTE (Google Deportivo) */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 py-2">
+        {/* MARCADOR (Estilo Google Deportivo Compacto) */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-1">
           {/* Pelusa Caligari */}
-          <div className="flex items-center justify-between md:justify-start gap-4 sm:gap-6 w-full md:w-auto">
+          <div className="flex items-center justify-between md:justify-start gap-3 sm:gap-4 w-full md:w-auto">
             <div className="text-center md:text-left">
-              <span className="text-xs uppercase tracking-widest font-black text-pelusa-gold block mb-0.5">
+              <span className="text-[10px] sm:text-xs uppercase tracking-widest font-black text-pelusa-gold block mb-0.5">
                 Local
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white uppercase tracking-tight drop-shadow-md">
+              <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight drop-shadow-md">
                 Pelusa Caligari
               </h2>
             </div>
           </div>
 
-          {/* Resultado Numérico Gigante Central */}
-          <div className="flex items-center gap-4 sm:gap-6 bg-pelusa-black/80 px-6 sm:px-8 py-3 rounded-2xl border-2 border-pelusa-gold/40 shadow-inner">
+          {/* Resultado Numérico Central */}
+          <div className="flex items-center gap-4 sm:gap-5 bg-pelusa-black/80 px-5 sm:px-6 py-2 rounded-2xl border border-pelusa-gold/40 shadow-inner">
             <span
-              className={`text-4xl sm:text-5xl md:text-6xl font-black font-mono drop-shadow-md ${
+              className={`text-3xl sm:text-4xl font-black font-mono drop-shadow-md ${
                 ganoPelusa ? 'text-pelusa-gold' : 'text-white'
               }`}
             >
               {partido.goles_pelusa ?? 0}
             </span>
-            <span className="text-xl sm:text-2xl font-black text-zinc-500">-</span>
+            <span className="text-lg sm:text-xl font-black text-zinc-500">-</span>
             <span
-              className={`text-4xl sm:text-5xl md:text-6xl font-black font-mono drop-shadow-md ${
+              className={`text-3xl sm:text-4xl font-black font-mono drop-shadow-md ${
                 !ganoPelusa && !empato ? 'text-red-400' : 'text-zinc-200'
               }`}
             >
@@ -87,12 +87,12 @@ export const LastMatchWidget: React.FC<LastMatchWidgetProps> = ({ partido, anota
           </div>
 
           {/* Rival */}
-          <div className="flex items-center justify-between md:justify-end gap-4 sm:gap-6 w-full md:w-auto">
+          <div className="flex items-center justify-between md:justify-end gap-3 sm:gap-4 w-full md:w-auto">
             <div className="text-center md:text-right">
-              <span className="text-xs uppercase tracking-widest font-black text-zinc-400 block mb-0.5">
+              <span className="text-[10px] sm:text-xs uppercase tracking-widest font-black text-zinc-400 block mb-0.5">
                 Visitante
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white uppercase tracking-tight drop-shadow-md">
+              <h2 className="text-lg sm:text-xl font-black text-white uppercase tracking-tight drop-shadow-md">
                 {partido.rival}
               </h2>
             </div>
