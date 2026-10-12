@@ -115,14 +115,17 @@ export default function Home() {
               ? ratings.reduce((sum, r) => sum + Number(r), 0) / ratings.length
               : 0;
 
-          // Cálculo dinámico de Overall:
-          // Si el jugador no tiene partidos/calificaciones, su overall por defecto será 70.
-          // Si tiene calificación (escala 1.0 a 10.0), se multiplica por 10 y se redondea (ej. 8.5 -> 85).
-          const overall = ratings.length > 0
-            ? Math.round(promedioCalificacion * 10)
-            : 70;
-
           const partidosJugados = pStats.filter((s) => s.asistencia === 'Presente').length;
+
+          // Cálculo dinámico de Overall (Media EA Sports FC 27):
+          // Base 70. Si tiene partidos jugados, calcula el promedio de su calificacion * 10,
+          // más +1 por cada Gol y +2 por cada MVP. Limita el máximo a 99.
+          let overall = 70;
+          if (partidosJugados > 0 || ratings.length > 0) {
+            const baseCalificacion = ratings.length > 0 ? Math.round(promedioCalificacion * 10) : 70;
+            const boost = totalGoles + totalMvps * 2;
+            overall = Math.min(Math.max(baseCalificacion + boost, 50), 99);
+          }
 
           return {
             id: j.id,
@@ -318,7 +321,6 @@ export default function Home() {
                       <PlayerCard
                         key={jugador.id}
                         jugador={jugador}
-                        showFinancialStatus={true}
                       />
                     ))}
                   </div>

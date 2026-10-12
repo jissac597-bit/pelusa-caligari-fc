@@ -1,46 +1,42 @@
-import React from 'react';
-import { Footprints, DollarSign } from 'lucide-react';
+import React, { useState } from 'react';
+import { User, Footprints } from 'lucide-react';
 import { Jugador } from '@/types/database';
 
-interface PlayerCardProps {
-  jugador: Jugador & {
-    totalGoles?: number;
-    totalAsistencias?: number;
-    promedioCalificacion?: number;
-    totalMvps?: number;
-    partidosJugados?: number;
-    overall?: number;
-  };
-  showFinancialStatus?: boolean;
+export interface PlayerCardStats {
+  pj?: number;
+  partidosJugados?: number;
+  goles?: number;
+  totalGoles?: number;
+  asistencias?: number;
+  totalAsistencias?: number;
+  mvps?: number;
+  totalMvps?: number;
+  promedioCalificacion?: number;
+  overall?: number;
 }
 
-export const PlayerCard: React.FC<PlayerCardProps> = ({
-  jugador,
-  showFinancialStatus = false,
-}) => {
-  const totalGoles = jugador.totalGoles ?? 0;
-  const totalAsistencias = jugador.totalAsistencias ?? 0;
-  const promedioCalificacion = jugador.promedioCalificacion ?? 0;
-  const totalMvps = jugador.totalMvps ?? 0;
-  const partidosJugados = jugador.partidosJugados ?? 0;
+interface PlayerCardProps {
+  jugador: Jugador & PlayerCardStats;
+}
 
-  // Lógica del Overall (Media):
-  // Si viene calculado dinámicamente, se usa directamente.
-  // Si no, o si no tiene partidos (promedioCalificacion <= 0), por defecto es 70.
-  const overall = jugador.overall !== undefined
-    ? jugador.overall
-    : promedioCalificacion > 0
-    ? Math.round(promedioCalificacion * 10)
-    : 70;
+export const PlayerCard: React.FC<PlayerCardProps> = ({ jugador }) => {
+  const [imgError, setImgError] = useState(false);
 
-  const avatarSrc =
-    jugador.avatar_url && jugador.avatar_url.trim() !== ''
-      ? jugador.avatar_url
-      : `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${encodeURIComponent(
-          jugador.nombre
-        )}`;
+  // Stats reales
+  const pj = jugador.pj ?? jugador.partidosJugados ?? 0;
+  const goles = jugador.goles ?? jugador.totalGoles ?? 0;
+  const asistencias = jugador.asistencias ?? jugador.totalAsistencias ?? 0;
+  const mvps = jugador.mvps ?? jugador.totalMvps ?? 0;
+  const tir = goles * 10;
+  const pas = asistencias * 10;
 
-  // Formato para Pierna Hábil
+  // Overall (Media): viene calculado desde la vista principal o fallback a 70
+  const overall = jugador.overall ?? 70;
+
+  // Posición corta
+  const posicion = (jugador.posicion || 'JUG').trim().toUpperCase();
+
+  // Pie hábil
   const pieDisplay =
     jugador.pierna_habil === 'Izquierdo'
       ? 'IZQ'
@@ -50,136 +46,130 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({
       ? jugador.pierna_habil.toUpperCase()
       : 'DER';
 
+  const hasAvatar = Boolean(jugador.avatar_url && jugador.avatar_url.trim() !== '' && !imgError);
+
   return (
-    <div className="relative group w-full max-w-[18.5rem] transition-all duration-300 hover:scale-105 select-none drop-shadow-[0_20px_25px_rgba(0,0,0,0.7)]">
-      {/* Silueta de Escudo / Carta FUT (EA Sports FC 27 Shield Cutout) */}
+    <div className="relative group w-full max-w-[15rem] sm:max-w-[16rem] transition-all duration-300 hover:scale-105 select-none drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)]">
+      {/* Contenedor Exterior: Borde y Silueta de Escudo FUT EA Sports FC 27 */}
       <div
-        className="relative p-[3px] bg-gradient-to-b from-[#FFE27D] via-[#C99726] to-[#453106] shadow-2xl"
+        className="relative p-[2.5px] rounded-t-lg bg-gradient-to-b from-[#fceea6] via-[#d4af37] to-[#aa7c11] shadow-2xl border border-[#fceea6]/80 overflow-hidden"
         style={{
           clipPath:
-            'polygon(0 0, 100% 0, 100% calc(100% - 32px), 50% 100%, 0 calc(100% - 32px))',
+            'polygon(0 0, 100% 0, 100% calc(100% - 24px), 50% 100%, 0 calc(100% - 24px))',
         }}
       >
+        {/* Cuerpo Interior de la Carta: Gradiente Oro EA FC 27 */}
         <div
-          className="relative bg-gradient-to-b from-[#1E190F] via-[#120F09] to-[#0A0804] text-white p-4 pt-5 pb-9 flex flex-col justify-between overflow-hidden"
+          className="relative bg-gradient-to-b from-[#f9e596] via-[#d4af37] to-[#aa7c11] text-[#2a2a2a] p-3 pt-3.5 pb-7 flex flex-col justify-between overflow-hidden"
           style={{
             clipPath:
-              'polygon(0 0, 100% 0, 100% calc(100% - 30px), 50% 100%, 0 calc(100% - 30px))',
+              'polygon(0 0, 100% 0, 100% calc(100% - 22px), 50% 100%, 0 calc(100% - 22px))',
           }}
         >
-          {/* Textura geométrica dorada de fondo estilo Ultimate Team */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#FFD25F]/20 via-transparent to-black/80 pointer-events-none" />
-          <div className="absolute -top-12 -left-12 w-36 h-36 bg-[#FFE27D]/15 rounded-full blur-2xl pointer-events-none" />
-          <div className="absolute -bottom-10 right-0 w-40 h-40 bg-[#C99726]/10 rounded-full blur-3xl pointer-events-none" />
+          {/* Texturas y Reflejos Dorados Premium */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/35 via-transparent to-black/25 pointer-events-none" />
+          <div className="absolute top-0 -left-10 w-28 h-28 bg-white/20 rounded-full blur-xl pointer-events-none" />
 
-          {/* PARTE SUPERIOR: Columna Izquierda (Overall, Posición, Bandera) + Escudo Club */}
+          {/* DISTRIBUCIÓN SUPERIOR */}
           <div className="relative z-20 flex justify-between items-start pointer-events-none">
-            {/* Columna Izquierda estilo EA FC */}
+            {/* Esquina superior izquierda: Media (Overall) y Posición */}
             <div className="flex flex-col items-center leading-none">
-              <span className="text-xl font-black tracking-tighter text-[#FFE58F] font-mono drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+              <span className="text-3xl font-black text-[#2a2a2a] tracking-tighter font-mono drop-shadow-sm">
                 {overall}
               </span>
-              <span className="text-[9px] font-black text-white uppercase tracking-wider mt-0.5 drop-shadow-sm">
-                {jugador.posicion || 'JUG'}
+              <span className="text-xs font-bold uppercase tracking-wider text-[#3d2f09] mt-0.5">
+                {posicion}
               </span>
-              <span className="text-lg mt-1 drop-shadow-md" title="México">
+              <span className="text-base mt-1 drop-shadow-xs" title="México">
                 🇲🇽
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo.png"
                 alt="Pelusa FC"
-                className="w-4 h-4 object-contain mt-1 opacity-90"
+                className="w-4 h-4 object-contain mt-1 opacity-80"
               />
             </div>
 
-            {/* Dorsal en la esquina superior derecha */}
-            <div className="flex flex-col items-end">
-              <span className="text-sm font-black text-[#FFE58F]/70 drop-shadow-sm">
+            {/* Esquina superior derecha: Dorsal y Pierna Hábil */}
+            <div className="flex flex-col items-end leading-none">
+              <span className="text-sm font-black text-[#443309]/80">
                 #{jugador.dorsal ?? '--'}
               </span>
+              <div className="flex items-center gap-0.5 text-[8px] font-black uppercase tracking-wider text-[#443309] mt-1 bg-white/30 px-1 py-0.5 rounded">
+                <Footprints className="w-2 h-2 text-[#443309]" />
+                <span>{pieDisplay}</span>
+              </div>
             </div>
           </div>
 
-          {/* AVATAR EN EL CENTRO SUPERIOR (HTML estándar <img> a prueba de fallos) */}
-          <div className="relative w-full flex items-center justify-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={avatarSrc}
-              alt={jugador.nombre}
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(
-                  jugador.nombre
-                )}`;
-              }}
-              className="w-20 h-20 object-contain mx-auto drop-shadow-lg relative z-10"
-            />
+          {/* AVATAR: Foto real o Silueta profesional con Lucide User */}
+          <div className="relative w-full flex items-center justify-center -mt-3 mb-1">
+            {hasAvatar ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={jugador.avatar_url!}
+                alt={jugador.nombre}
+                onError={() => setImgError(true)}
+                className="w-24 h-24 object-contain mx-auto drop-shadow-md relative z-10"
+              />
+            ) : (
+              <div className="w-24 h-24 mx-auto flex items-center justify-center bg-black/10 rounded-full border border-black/15 shadow-inner">
+                <User className="w-16 h-16 text-[#555] drop-shadow-sm" />
+              </div>
+            )}
           </div>
 
-          {/* NOMBRE DEL JUGADOR CON BANDA ESTILO FUT */}
+          {/* NOMBRE DEL JUGADOR */}
           <div className="relative z-10 text-center">
-            <h3 className="text-[11px] font-bold truncate px-1 mt-2 text-center uppercase text-[#FFF4CC] drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+            <h3 className="text-sm font-black uppercase tracking-tighter truncate px-1 text-[#2a2a2a] drop-shadow-xs">
               {jugador.nombre}
             </h3>
-            <div className="h-[1px] w-3/4 mx-auto bg-gradient-to-r from-transparent via-[#FFD25F] to-transparent mt-1 mb-1 opacity-80" />
-            
-            {/* Pierna Hábil */}
-            <div className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-[#FFD25F] bg-black/60 px-1.5 py-0.5 rounded-full border border-[#FFD25F]/30">
-              <Footprints className="w-2 h-2 text-[#FFD25F]" />
-              <span>PIE: {pieDisplay}</span>
-            </div>
           </div>
 
-          {/* PARTE INFERIOR: ESTADÍSTICAS COMPACTAS ESTILO BLOQUE ULTIMATE TEAM */}
-          {/* Fila 1: PJ | GOL  --  Fila 2: AST | MVP */}
-          <div className="relative z-10 p-1 mt-2 border-t border-b border-[#FFD25F]/35 bg-black/50 backdrop-blur-sm rounded-xl space-y-1">
-            {/* Fila 1: PJ (Partidos Jugados) | GOL (Goles) */}
-            <div className="grid grid-cols-2 divide-x divide-[#FFD25F]/20 text-center">
-              <div className="flex items-center justify-between px-1.5">
-                <span className="text-[8px] text-pelusa-gold font-black tracking-wider">PJ</span>
-                <span className="text-xs font-bold text-white">{partidosJugados}</span>
-              </div>
-              <div className="flex items-center justify-between px-1.5">
-                <span className="text-[8px] text-pelusa-gold font-black tracking-wider">GOL</span>
-                <span className="text-xs font-bold text-white">{totalGoles}</span>
-              </div>
+          {/* LÍNEA SEPARADORA */}
+          <div className="border-t border-[#8a6825]/30 w-11/12 mx-auto my-1 relative z-10" />
+
+          {/* DISTRIBUCIÓN INFERIOR: CUADRÍCULA DE 6 ESTADÍSTICAS TIPO FIFA */}
+          {/* Fila 1: PJ | GOL | AST */}
+          {/* Fila 2: MVP | TIR | PAS */}
+          <div className="relative z-10 grid grid-cols-3 gap-x-2 gap-y-1 text-center pb-2 px-1">
+            {/* Columna 1 */}
+            <div className="flex flex-col items-center">
+              <span className="text-[9px] text-[#5a4310] font-bold tracking-wider leading-none">PJ</span>
+              <span className="text-xs font-black text-[#2a2a2a] leading-tight">{pj}</span>
             </div>
 
-            <div className="h-[1px] w-full bg-[#FFD25F]/15" />
+            {/* Columna 2 */}
+            <div className="flex flex-col items-center">
+              <span className="text-[9px] text-[#5a4310] font-bold tracking-wider leading-none">GOL</span>
+              <span className="text-xs font-black text-[#2a2a2a] leading-tight">{goles}</span>
+            </div>
 
-            {/* Fila 2: AST (Asistencias) | MVP (Veces MVP) */}
-            <div className="grid grid-cols-2 divide-x divide-[#FFD25F]/20 text-center">
-              <div className="flex items-center justify-between px-1.5">
-                <span className="text-[8px] text-pelusa-gold font-black tracking-wider">AST</span>
-                <span className="text-xs font-bold text-white">{totalAsistencias}</span>
-              </div>
-              <div className="flex items-center justify-between px-1.5">
-                <span className="text-[8px] text-pelusa-gold font-black tracking-wider">MVP</span>
-                <span className="text-xs font-bold text-white">{totalMvps}</span>
-              </div>
+            {/* Columna 3 */}
+            <div className="flex flex-col items-center">
+              <span className="text-[9px] text-[#5a4310] font-bold tracking-wider leading-none">AST</span>
+              <span className="text-xs font-black text-[#2a2a2a] leading-tight">{asistencias}</span>
+            </div>
+
+            {/* Columna 4 (Fila 2) */}
+            <div className="flex flex-col items-center">
+              <span className="text-[9px] text-[#5a4310] font-bold tracking-wider leading-none">MVP</span>
+              <span className="text-xs font-black text-[#2a2a2a] leading-tight">{mvps}</span>
+            </div>
+
+            {/* Columna 5 (Fila 2) */}
+            <div className="flex flex-col items-center">
+              <span className="text-[9px] text-[#5a4310] font-bold tracking-wider leading-none">TIR</span>
+              <span className="text-xs font-black text-[#2a2a2a] leading-tight">{tir}</span>
+            </div>
+
+            {/* Columna 6 (Fila 2) */}
+            <div className="flex flex-col items-center">
+              <span className="text-[9px] text-[#5a4310] font-bold tracking-wider leading-none">PAS</span>
+              <span className="text-xs font-black text-[#2a2a2a] leading-tight">{pas}</span>
             </div>
           </div>
-
-          {/* Monedero Virtual (Si está habilitado) */}
-          {showFinancialStatus && (
-            <div className="relative z-10 mt-2 flex justify-between items-center text-[0.6875rem] sm:text-xs px-2 pt-1">
-              <span className="text-zinc-400 flex items-center gap-1 font-semibold">
-                <DollarSign className="w-3 h-3 text-zinc-500" /> Saldo:
-              </span>
-              <span
-                className={`font-black ${
-                  Number(jugador.saldo_actual) < 0
-                    ? 'text-red-400'
-                    : Number(jugador.saldo_actual) > 0
-                    ? 'text-emerald-400'
-                    : 'text-zinc-400'
-                }`}
-              >
-                ${Number(jugador.saldo_actual ?? 0).toFixed(2)}
-              </span>
-            </div>
-          )}
         </div>
       </div>
     </div>
