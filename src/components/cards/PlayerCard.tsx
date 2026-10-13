@@ -104,14 +104,14 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ jugador }) => {
           </div>
 
           {/* AVATAR: Foto real o Silueta profesional con Lucide User */}
-          <div className="relative w-full flex items-center justify-center -mt-3 mb-1">
+          <div className="relative w-full flex items-center justify-center mb-1">
             {hasAvatar ? (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
                 src={jugador.avatar_url!}
                 alt={jugador.nombre}
                 onError={() => setImgError(true)}
-                className="w-24 h-24 object-contain mx-auto drop-shadow-md relative z-10"
+                className="w-24 h-24 object-contain mx-auto drop-shadow-2xl -mt-2 relative z-10"
               />
             ) : (
               <div className="w-24 h-24 mx-auto flex items-center justify-center bg-black/10 rounded-full border border-black/15 shadow-inner">
