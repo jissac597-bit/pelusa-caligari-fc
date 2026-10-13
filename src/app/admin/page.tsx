@@ -158,7 +158,17 @@ export default function AdminPage() {
 
     try {
       setSavingAbonoId(jugador.id);
-      const saldoActualNum = Number(jugador.saldo_actual || 0);
+
+      // Leer el saldo vigente en BD (evita sobrescribir con datos desactualizados)
+      const { data: actual, error: readError } = await supabase
+        .from('jugadores')
+        .select('saldo_actual')
+        .eq('id', jugador.id)
+        .single();
+
+      if (readError) throw readError;
+
+      const saldoActualNum = Number(actual?.saldo_actual || 0);
       const nuevoSaldo = Number((saldoActualNum + amount).toFixed(2));
 
       const { error } = await supabase
@@ -168,15 +178,19 @@ export default function AdminPage() {
 
       if (error) throw error;
 
-      // Actualizar estado local
-      setJugadores((prev) =>
-        prev.map((j) => (j.id === jugador.id ? { ...j, saldo_actual: nuevoSaldo } : j))
-      );
       setAbonosInput((prev) => ({ ...prev, [jugador.id]: '' }));
+
+      // Refrescar la lista (sin tocar el borrador del reporte de partido)
+      const { data: refreshed, error: refreshError } = await supabase
+        .from('jugadores')
+        .select('*')
+        .order('dorsal', { ascending: true });
+      if (refreshError) throw refreshError;
+      setJugadores((refreshed || []) as Jugador[]);
 
       showNotification(
         'success',
-        `¡Abono de $${amount.toFixed(2)} registrado para ${jugador.nombre}! Nuevo saldo: $${nuevoSaldo.toFixed(2)}`
+        `Pago registrado correctamente. ${jugador.nombre}: nuevo saldo $${nuevoSaldo.toFixed(2)}`
       );
     } catch (err: any) {
       console.error('Error al actualizar saldo:', err);
@@ -616,33 +630,39 @@ export default function AdminPage() {
                           </span>
                         </td>
                         <td className="p-3.5 text-right">
-                          <div className="flex items-center justify-end gap-2">
+                          <form
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              handleAplicarAbono(jugador);
+                            }}
+                            className="flex items-center justify-end gap-2"
+                          >
                             <div className="relative">
                               <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500 text-xs font-bold">
                                 $
                               </span>
                               <input
                                 type="number"
-                                min={1}
-                                step="any"
-                                placeholder="0.00"
+                                min={0.01}
+                                step="0.01"
+                                placeholder="Monto a abonar"
                                 value={abonoVal}
                                 onChange={(e) => handleAbonoChange(jugador.id, e.target.value)}
-                                className="w-24 sm:w-28 bg-pelusa-black border border-zinc-700 rounded-xl py-1.5 pl-6 pr-2 text-right text-xs font-bold text-white focus:border-pelusa-gold outline-none"
+                                className="w-28 sm:w-32 bg-pelusa-black border border-zinc-700 rounded-xl py-1.5 pl-6 pr-2 text-right text-xs font-bold text-white focus:border-pelusa-gold outline-none"
                               />
                             </div>
                             <button
-                              onClick={() => handleAplicarAbono(jugador)}
+                              type="submit"
                               disabled={isSaving}
-                              className="bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1 shadow-sm disabled:opacity-50 cursor-pointer"
+                              className="bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold px-3 py-1.5 rounded-xl text-xs transition-all flex items-center gap-1 shadow-sm disabled:opacity-50 cursor-pointer whitespace-nowrap"
                             >
                               {isSaving ? (
                                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
                               ) : (
-                                <span>Abonar</span>
+                                <span>Registrar Pago</span>
                               )}
                             </button>
-                          </div>
+                          </form>
                         </td>
                       </tr>
                     );
